@@ -39,12 +39,12 @@
   set text(font: "Libertinus Sans", fill: m-dark-teal, text-size)
   set list(indent: 1em)
   set enum(indent: 1em)
-  
+
   show raw: set text(font: "Inconsolata", 1.1em)
 
-  if style-raw-blocks {
-    // Add line numbers to code block.
-    show raw.where(block: true): r => {
+  // Add line numbers to code block.
+  show raw.where(block: true): r => {
+    if style-raw-blocks {
       show raw: set par(leading: 0.75em)
       show raw.line: l => {
         box(table(
@@ -60,6 +60,8 @@
 
       set align(left)
       block(width: 100%, stroke: gray + 0.5pt, inset: 0.75em, r)
+    } else {
+      r
     }
   }
 
@@ -90,11 +92,11 @@
 // - extra: (Optional) info below the date, like your faculty.
 #let title-slide(
   title: [],
-  author: (name: "Your Name", mail: "example@ovgu.de"), 
-  subtitle: none, 
+  author: (name: "Your Name", mail: "example@ovgu.de"),
+  subtitle: none,
   short-title: none,
   logo: none,
-  date: datetime.today().display(), 
+  date: datetime.today().display(),
   extra: none,
 ) = {
   m-metadata.update(("title": title, "authors": author))
@@ -137,13 +139,13 @@
   }
 
   m-footer.update(
-    grid(columns: (1fr, auto, 1fr), align: (left, center, right), 
-      if type(author) == array { author.map(x => x.name).join(", ") } else { author.name }, 
-      if short-title != none { short-title } else { title }, 
+    grid(columns: (1fr, auto, 1fr), align: (left, center, right),
+      if type(author) == array { author.map(x => x.name).join(", ") } else { author.name },
+      if short-title != none { short-title } else { title },
       context [#m-pages.get().first() / #m-pages.final().first()]
     ),
   )
-  
+
   polylux-slide(content)
 }
 
@@ -165,7 +167,7 @@
   // Define header: [Subsection] --- [Section], incl. progress bar.
   let header = {
     set align(top)
-    
+
     if title != none {
       if new-section != none {
         toolbox.register-section(new-section)
@@ -220,8 +222,8 @@
 // - `show-title`: Whether to show the presentation title as a heading (default: false)
 // - `new-section`: The next section to highlight in the outline-slide (default: none)
 #let outline-slide(title: "Outline", show-title: false, new-section: none) = slide(
-  title: title, 
-  show-footer: false, 
+  title: title,
+  show-footer: false,
   skip: true,
   [
     #set list(marker: none, spacing: 2em)
@@ -239,9 +241,9 @@
 
 // Creates a list of all references using the given style.
 #let bib-slide(title: "References", bibliography) = slide(
-  title: title, 
-  show-footer: false, 
-  show-current-section: false, 
+  title: title,
+  show-footer: false,
+  show-current-section: false,
   skip: true
 )[
   #set grid(align: top)
